@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql-customer:
+    image: mysql:latest
+    container_name: mysql-customer
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: customer_service
+    ports:
+      - "3307:3306"  # tránh trùng với cổng 3306
+    volumes:
+      - mysql_customer_data:/var/lib/mysql
+    networks:
+      - backend
+
+  mysql-product:
+    image: mysql:latest
+    container_name: mysql-product
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product_service
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_product_data:/var/lib/mysql
+    networks:
+      - backend
+
+  mysql-order:
+    image: mysql:latest
+    container_name: mysql-order
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: order_service
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_order_data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  mysql_customer_data:
+  mysql_product_data:
+  mysql_order_data:
+
+networks:
+  backend:

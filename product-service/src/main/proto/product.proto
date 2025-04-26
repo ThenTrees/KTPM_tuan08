@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.iuh.fit.se.grpc.product"; // package based on the directory structure
+option java_outer_classname = "ProductProto";
+
+// Định nghĩa Service Product
+service ProductService {
+  // Tạo mới product
+  rpc CreateProduct (CreateProductRequest) returns (ProductResponse);
+  // Lấy thông tin product bằng ID
+  rpc GetProduct (GetProductRequest) returns (ProductResponse);
+  // Cập nhật product
+  rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
+  // Xóa product
+  rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse);
+  // Lấy danh sách tất cả products
+  rpc ListProducts (ListProductsRequest) returns (ListProductsResponse);
+}
+
+// Request để lấy product bằng ID
+message GetProductRequest {
+  string id = 1;  // ID của product (kiểu string hoặc int64 tùy nhu cầu)
+}
+
+// Request để tạo mới product
+message CreateProductRequest {
+  string name = 1;
+  double price = 2;
+  string description = 3;
+  int32 stock = 4;
+}
+
+// Request để cập nhật product
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  double price = 3;
+  string description = 4;
+  int32 stock = 5;
+}
+
+// Request để xóa product
+message DeleteProductRequest {
+  string id = 1;
+}
+
+// Response sau khi xóa
+message DeleteProductResponse {
+  bool success = 1;
+}
+
+// Request để lấy danh sách products (có thể thêm phân trang)
+message ListProductsRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+// Response danh sách products
+message ListProductsResponse {
+  repeated ProductResponse products = 1;  // "repeated" = danh sách/array
+}
+
+// Response chung cho product
+message ProductResponse {
+  string id = 1;
+  string name = 2;
+  double price = 3;
+  string description = 4;
+  int32 stock = 5;
+}

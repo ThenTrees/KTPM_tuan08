@@ -1,0 +1,23 @@
+server:
+  port: 8082
+grpc:
+  server:
+    port: 50051
+    address: 0.0.0.0  # Đảm bảo server bind vào tất cả các interface
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:mysql://localhost:3307/product_service?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # Hoặc 'create' nếu muốn giữ dữ liệu khi tắt ứng dụng
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
