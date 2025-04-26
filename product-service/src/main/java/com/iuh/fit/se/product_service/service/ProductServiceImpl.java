@@ -1,6 +1,5 @@
 package com.iuh.fit.se.product_service.service;
 
-
 import com.iuh.fit.se.grpc.product.*;
 import com.iuh.fit.se.product_service.model.Product;
 import com.iuh.fit.se.product_service.repository.ProductRepository;
@@ -18,29 +17,6 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl extends ProductServiceGrpc.ProductServiceImplBase {
 
     private final ProductRepository productRepository;
-
-    @Override
-    public void createProduct(CreateProductRequest request, StreamObserver<ProductResponse> responseObserver) {
-        Product product = Product.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .stock(request.getStock())
-                .price(request.getPrice())
-                .build();
-
-        productRepository.save(product);
-
-        ProductResponse response = ProductResponse.newBuilder()
-                .setId(product.getId())
-                .setName(product.getName())
-                .setDescription(product.getDescription())
-                .setPrice(product.getPrice())
-                .setStock(product.getStock())
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
 
     @Override
     public void getProduct(GetProductRequest request, StreamObserver<ProductResponse> responseObserver) {
@@ -61,10 +37,6 @@ public class ProductServiceImpl extends ProductServiceGrpc.ProductServiceImplBas
         responseObserver.onCompleted();
     }
 
-    @Override
-    public void updateProduct(UpdateProductRequest request, StreamObserver<ProductResponse> responseObserver) {
-        super.updateProduct(request, responseObserver);
-    }
 
     @Override
     public void deleteProduct(DeleteProductRequest request, StreamObserver<DeleteProductResponse> responseObserver) {

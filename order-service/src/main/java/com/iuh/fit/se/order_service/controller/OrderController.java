@@ -1,11 +1,9 @@
 package com.iuh.fit.se.order_service.controller;
 
-import com.iuh.fit.se.grpc.product.ProductResponse;
-import com.iuh.fit.se.order_service.client.CustomerClient;
-import com.iuh.fit.se.order_service.dto.CallExample;
-import com.iuh.fit.se.order_service.dto.Customer;
-import com.iuh.fit.se.order_service.service.ProductGrpcClient;
+import com.iuh.fit.se.order_service.dto.ProductResponseDto;
+import com.iuh.fit.se.order_service.grpc.ProductGrpcClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,19 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrderController {
     private final ProductGrpcClient productGrpcClient;
-    private final CustomerClient customerClient;
-    @PostMapping
-    public String createOrder(@RequestBody CallExample callExample) {
 
-        // Call the customer service to get customer information
-        ResponseEntity<Customer> customer = customerClient.getCustomer(callExample.getPhone());
-        ProductResponse product = productGrpcClient.GetProduct(callExample.getProductId());
-
-        System.out.println("Customer: " + customer.getBody().toString());
-        System.out.println("Product: " + product.toString());
-        return "Order created successfully!";
+    @GetMapping()
+    public ResponseEntity<String> getAllOrders() {
+        return ResponseEntity.status(HttpStatus.OK).body("Get all orders");
     }
 
-
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("id") String id) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                productGrpcClient.getProduct(id)
+        );
+    }
 
 }

@@ -8,8 +8,8 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: true # tự động định tuyến dựa vào serviceId
+          lower-case-service-id: true # chuyển đổi serviceId thành chữ thường
       routes:
         - id: customer-service
           uri: lb://customer-service

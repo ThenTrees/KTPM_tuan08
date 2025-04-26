@@ -7,7 +7,7 @@ spring:
     name: order-service # tương ứng product-service / order-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/order_service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/order_service?createDatabaseIfNotExist=true
     username: root
     password: root
     jpa:
@@ -23,8 +23,8 @@ eureka:
 
 grpc:
   client:
-    product-service:
-      address: static://localhost:50051
-      negotiationType: plaintext
-  server:
-    enabled: false
+    product-service:              # Tên client dùng trong @GrpcClient("customer-service")
+      address: "static://localhost:50051"
+      negotiationType: plaintext   # Hoặc "TLS" nếu dùng HTTPS
+
+
